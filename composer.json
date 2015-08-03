@@ -1,0 +1,25 @@
+{
+    "name": "softrog/gloo-client-bundle",
+    "description": "Symfony bundle for using gloo-client",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roger Torrente",
+            "email": "roger.torrente@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@bitbucket.org:softrog/gloo-client.git"
+        }
+    ],
+    "require": {
+        "softrog/gloo-client": "dev-master"
+    },
+    "autoload": {
+        "psr-4": { "": "src/" }
+    },
+    "minimum-stability": "dev"
+}

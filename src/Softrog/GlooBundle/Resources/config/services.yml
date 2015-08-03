@@ -1,0 +1,4 @@
+parameters:
+    gloo.client.class: Softrog\Gloo\Client\Client
+
+services:
