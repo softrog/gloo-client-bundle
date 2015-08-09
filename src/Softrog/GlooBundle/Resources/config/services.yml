@@ -1,7 +1,4 @@
 parameters:
     gloo.client.class: Softrog\Gloo\Client\Client
-    gloo.middleware.factory.class: SoftRog\GlooBundle\Middleware\MiddlewareFactory
 
 services:
-    gloo.middleware.factory:
-        class: %gloo.middleware.factory.class%

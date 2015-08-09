@@ -2,9 +2,9 @@
 
 namespace SoftRog\GlooBundle\Middleware;
 
-use Softrog\Gloo\Message\MessageInterface;
-use Softrog\Gloo\Message\RequestInterface;
-use Softrog\Gloo\Message\ResponseInterface;
+use Psr\Http\Message\MessageInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Softrog\Gloo\Middleware\MiddlewareInterface;
 use Softrog\Gloo\Middleware\RequestMiddlewareInterface;
 use Softrog\Gloo\Middleware\ResponseMiddlewareInterface;
@@ -58,6 +58,8 @@ class MiddlewareWrapper implements RequestMiddlewareInterface, ResponseMiddlewar
     if (!is_null($this->requestDefinition)) {
       return $this->processDefinition($this->requestDefinition, $request);
     }
+
+    return $request;
   }
 
   /**
@@ -68,6 +70,8 @@ class MiddlewareWrapper implements RequestMiddlewareInterface, ResponseMiddlewar
     if (!is_null($this->responseDefinition)) {
       return $this->processDefinition($this->responseDefinition, $response);
     }
+
+    return $response;
   }
 
   /**
@@ -83,19 +87,20 @@ class MiddlewareWrapper implements RequestMiddlewareInterface, ResponseMiddlewar
     $arguments = $definition->getArguments();
 
     foreach ($arguments as $pos => $method) {
+      $method = 'get' . ucfirst($method);
       if (is_callable([$message, $method])) {
         $arguments[$pos] = $message->$method();
       }
     }
 
-    if (is_callable([$message, $attribute])) {
-      $message->$attribute(call_user_func_array($callback, $arguments));
-    } else {
-      $message = sprintf("Method '%s' does not exist in the given message", $attribute);
+    $method = 'with' . ucfirst($attribute);
+
+    if (!is_callable([$message, $method])) {
+      $message = sprintf("Method '%s' does not exist in the given message", $method);
       throw new \Exception($message);
     }
-
-    return true;
+var_dump ($arguments); exit;
+    return $message->$method(call_user_func_array($callback, $arguments));
   }
 
 }
